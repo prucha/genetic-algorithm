@@ -1,11 +1,11 @@
-// **************************************************************************
-// *																		*
-// *			  HEADER FILE: GENETIC ALGORITHM class library				*
-// *			  'chromosome' and 'population' classes		  				*
-// *					Version: 25 February 2003 								*
-// * 					by Milan Prucha										*
-// *																		*
-// **************************************************************************
+/*
+ * GENETIC ALGORITHM Class Library 
+ * -------------------------------
+ * by Milan Prucha
+ * 
+ * Website: www.milanprucha.com
+ * GitHub:  github.com/prucha
+ */
 
 #ifndef GENETIC_H
 #define GENETIC_H

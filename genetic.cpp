@@ -1,18 +1,13 @@
-// **************************************************************************
-// *																		*
-// *			  CPP FILE: GENETIC ALGORITHM class library					*
-// *						GENETIC.CPP	  									*
-// *						Last Updated: 25 February 2003		 		*
-// * 						by Milan Prucha									*
-// *																		*
-// **************************************************************************
-
-
+/*
+ * GENETIC ALGORITHM Class Library 
+ * -------------------------------
+ * by Milan Prucha
+ * 
+ * Website: www.milanprucha.com
+ * GitHub:  github.com/prucha
+ */
 
 #include "genetic.h"
-
-
-
 
 //this array is used to determine the values of specific bits
 //within an 8-bit data type (using uniary &).
