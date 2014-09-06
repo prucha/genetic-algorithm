@@ -24,7 +24,7 @@ enum {FALSE, TRUE};
 
 //-------------------------------------------------------------------------------
 
-class Cchromosome
+class Chromosome
 {
 private:
 
@@ -48,13 +48,13 @@ private:
 
 public:
 
-	Cchromosome(); //default constructor - if this is NOT called via the
+	Chromosome(); //default constructor - if this is NOT called via the
 	//'population' object, an explicite call to CreateGenes must be executed
 	// before the chromosome is usuable (otherwise 'genes' will point to null)
 
-	Cchromosome(unsigned int newlength);
-	Cchromosome(const Cchromosome& copyChromosome); //copy constructor
-	~Cchromosome(); //destructor
+	Chromosome(unsigned int newlength);
+	Chromosome(const Chromosome& copyChromosome); //copy constructor
+	~Chromosome(); //destructor
 
 	void CreateGenes(unsigned int newlength);//sets up and DMAs the gene array
 	//(if default constructor is called this needs to be called explicitly)
@@ -83,7 +83,7 @@ public:
 	//Chromosomes must have the same number of genes in order to mate (if
 	//'chromosomes' are being initialised via a 'population' object then this
 	//is not an issue).
-	int Mate(Cchromosome* partner, unsigned int method=1, 
+	int Mate(Chromosome* partner, unsigned int method=1, 
 	unsigned int crossProb=800, unsigned int swapRate=500);
 	//return: 0=ERROR		 1=CROSSOVER		 2=NO CROSSOVER
 	//method: 0=Multi-Point Crossover		1=Single-Point		2=Two-Point
@@ -96,7 +96,7 @@ public:
 
 	//all chromosome info in the received chromosome is copied into the
 	//current chromosome object
-	BOOL Copy(Cchromosome* received);
+	BOOL Copy(Chromosome* received);
 	//return: 0=ERROR		 1=SUCCESSFULL COPY
 
 	// Extracts a value from a defined portion of the genes-string and
@@ -128,7 +128,7 @@ public:
 
 
 //'population' objects manipulate entire populations of 'chromosome' objects
-class Cpopulation
+class Population
 {
 private:
    //total number of chromosomes in population (this should remain constant)
@@ -152,8 +152,8 @@ private:
    unsigned int swapRate; 
 
 
-   Cchromosome* currentPool; //pointer to first chromosome in current population
-   Cchromosome* matingPool; //pointer to first chromosome in selected pool
+   Chromosome* currentPool; //pointer to first chromosome in current population
+   Chromosome* matingPool; //pointer to first chromosome in selected pool
 
    unsigned int fitness; //Overall Fitness of population
    //(relates to the chromosomes in the 'currentPool')
@@ -169,17 +169,17 @@ private:
 
 public:
 
-	Cpopulation(); //default constructor
+	Population(); //default constructor
 
-	Cpopulation(unsigned int newsize, unsigned int newchromolen=32,
+	Population(unsigned int newsize, unsigned int newchromolen=32,
 	unsigned int newcrossProb=800, unsigned int newmutaProb=5,
 	unsigned int newelitism=0, unsigned int neweliteCopies=1,
 	unsigned int newswapRate=500);
 	
 	//copy constructor
-	Cpopulation(const Cpopulation& copyPopulation);
+	Population(const Population& copyPopulation);
 
-	~Cpopulation(); //destructor
+	~Population(); //destructor
 
    // *** insert copy constructor? ***
 

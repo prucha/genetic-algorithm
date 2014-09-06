@@ -26,7 +26,7 @@ unsigned char bitAt[8] =
 
 
 //default constructor - no parameters supplied
-Cchromosome::Cchromosome() : fitness(0), length(32), arraySize(4)
+Chromosome::Chromosome() : fitness(0), length(32), arraySize(4)
 {
 	//allocate memory for new chromosome and attach pointer
 	genes=NULL; //'CreateGenes' needs to be called before this is used
@@ -37,7 +37,7 @@ Cchromosome::Cchromosome() : fitness(0), length(32), arraySize(4)
 
 
 //custom constructor
-Cchromosome::Cchromosome(unsigned int newlength) : fitness(0)
+Chromosome::Chromosome(unsigned int newlength) : fitness(0)
 {
 	if(newlength<4)   //chromosomes shorter than 4 genes are probably
    newlength=4;   //too short (make them at least 4 genes in length)!
@@ -101,7 +101,7 @@ Cchromosome::Cchromosome(unsigned int newlength) : fitness(0)
 //A default copy constructor will not assign new target memory to the 'genes'
 //pointer, therefore, it must be assigned manually.
 
-Cchromosome::Cchromosome(const Cchromosome& copyChromosome) :
+Chromosome::Chromosome(const Chromosome& copyChromosome) :
 fitness(copyChromosome.fitness), length(copyChromosome.length),
 arraySize(copyChromosome.arraySize)
 {
@@ -122,7 +122,7 @@ arraySize(copyChromosome.arraySize)
 //============================================================================
 
 //Destructor
-Cchromosome::~Cchromosome()
+Chromosome::~Chromosome()
 {
 	if(genes!=NULL)
 	{
@@ -134,7 +134,7 @@ Cchromosome::~Cchromosome()
 //============================================================================
 //============================================================================
 
-void Cchromosome::CreateGenes(unsigned int newlength=32)
+void Chromosome::CreateGenes(unsigned int newlength=32)
 {
 	
 
@@ -203,7 +203,7 @@ void Cchromosome::CreateGenes(unsigned int newlength=32)
 //============================================================================
 //============================================================================
 
-void Cchromosome::Randomise()
+void Chromosome::Randomise()
 {
 	unsigned int temp; //temporarily holds the new value of the allele
 	unsigned int arrayElement = 0; //tracks which element is currently being assigned
@@ -256,21 +256,21 @@ void Cchromosome::Randomise()
 
 //============================================================================
 
-unsigned int Cchromosome::GetFitness()
+unsigned int Chromosome::GetFitness()
 {
 	return fitness;
 }
 
 //=============================================================================
 
-void Cchromosome::AssignFitness(unsigned int newfitness)
+void Chromosome::AssignFitness(unsigned int newfitness)
 {
 	fitness=newfitness;
 }
 
 //=============================================================================
 
-int Cchromosome::Mate(Cchromosome* partner, unsigned int method,
+int Chromosome::Mate(Chromosome* partner, unsigned int method,
 unsigned int crossProb, unsigned int swapRate)
 {
 	//defensive programming - check that both current and recieved chromosomes
@@ -630,7 +630,7 @@ return 2; //Chromosomes were compatible but no Crossover took place
 
 //=============================================================================
 
-void Cchromosome::Mutate(unsigned int mutaProb)
+void Chromosome::Mutate(unsigned int mutaProb)
 {
 
 	if(genes==NULL)
@@ -682,7 +682,7 @@ void Cchromosome::Mutate(unsigned int mutaProb)
 
 //=============================================================================
 
-int Cchromosome::ExtractValue(unsigned int position, unsigned int valsize)
+int Chromosome::ExtractValue(unsigned int position, unsigned int valsize)
 {//values in bool array are treated as a bit string
 //the value at 'position' is treated as part of the genes-string that forms the
 //value
@@ -754,7 +754,7 @@ int Cchromosome::ExtractValue(unsigned int position, unsigned int valsize)
 
 //=============================================================================
 
-BOOL Cchromosome::InsertValue(unsigned int position, unsigned int bitlength,
+BOOL Chromosome::InsertValue(unsigned int position, unsigned int bitlength,
  unsigned int value) //default value=15
 {
 
@@ -858,7 +858,7 @@ BOOL Cchromosome::InsertValue(unsigned int position, unsigned int bitlength,
 
 //=============================================================================
 
-void Cchromosome::DisplayGenes() //Displays chromosome's 'genes Sequence'
+void Chromosome::DisplayGenes() //Displays chromosome's 'genes Sequence'
 {
 	if(genes==NULL)
 	   	return;
@@ -902,7 +902,7 @@ void Cchromosome::DisplayGenes() //Displays chromosome's 'genes Sequence'
 
 //=============================================================================
 
-void Cchromosome::DisplayFitness()//Displays current 'Fitness Score'
+void Chromosome::DisplayFitness()//Displays current 'Fitness Score'
 {
 	if(genes==NULL)
 	   	return;
@@ -912,7 +912,7 @@ void Cchromosome::DisplayFitness()//Displays current 'Fitness Score'
 
 //=============================================================================
 
-BOOL Cchromosome::Copy(Cchromosome* received)
+BOOL Chromosome::Copy(Chromosome* received)
 {
 	//test to see if chromosomes are the same length - defensive programming
 	if(this->genes==NULL || received->genes==NULL)
@@ -947,13 +947,13 @@ BOOL Cchromosome::Copy(Cchromosome* received)
 //Definition of Population object
 
 //default constructor
-Cpopulation::Cpopulation() : size(8), chromolen(32), generation(0),
+Population::Population() : size(8), chromolen(32), generation(0),
 crossProb(800), mutaProb(5), elitism(0), eliteCopies(1),
 fitness(0), meanFitness(0), swapRate(500)
 {
 	//allocate memory for new chromosome and attach pointer
-	currentPool= new Cchromosome[size]; //DMA- the current population
-	matingPool=new Cchromosome[size]; //DMA - the selection pool...
+	currentPool= new Chromosome[size]; //DMA- the current population
+	matingPool=new Chromosome[size]; //DMA - the selection pool...
 	//...these chromosomes are then mated/mutated and placed back into
 	//the 'currentPool'.
 
@@ -971,7 +971,7 @@ fitness(0), meanFitness(0), swapRate(500)
 //============================================================================
 //custom constructor
 
-Cpopulation::Cpopulation(unsigned int newsize, unsigned int newchromolen,
+Population::Population(unsigned int newsize, unsigned int newchromolen,
 unsigned int newcrossProb, unsigned int newmutaProb, unsigned int newelitism,
 unsigned int neweliteCopies, unsigned int newswapRate) :
 size(newsize), chromolen(newchromolen), generation(0), crossProb(newcrossProb),
@@ -985,8 +985,8 @@ fitness(0), meanFitness(0), swapRate(newswapRate)
 	}
 
 	//allocate memory for new chromosome and attach pointer
-	currentPool= new Cchromosome[newsize]; //DMA- the current population
-	matingPool=new Cchromosome[newsize]; //DMA - the selection pool...
+	currentPool= new Chromosome[newsize]; //DMA- the current population
+	matingPool=new Chromosome[newsize]; //DMA - the selection pool...
    //...these chromosomes are then mated/mutated and placed back into
    //the 'currentPool'.
 
@@ -1034,7 +1034,7 @@ fitness(0), meanFitness(0), swapRate(newswapRate)
 
 //copy constructor
 
-Cpopulation::Cpopulation(const Cpopulation& copyPopulation) :
+Population::Population(const Population& copyPopulation) :
 size(copyPopulation.size), chromolen(copyPopulation.chromolen), 
 generation(copyPopulation.generation), mutaProb(copyPopulation.mutaProb),
 elitism(copyPopulation.elitism), eliteCopies(copyPopulation.eliteCopies),
@@ -1043,8 +1043,8 @@ meanFitness(copyPopulation.meanFitness), swapRate(copyPopulation.swapRate)
 {
 
 	//allocate memory for new  chromosome and attach pointer
-	currentPool = new Cchromosome[copyPopulation.size]; //DMA - the current population
-	matingPool = new Cchromosome[copyPopulation.size];  //DMA - the selection pool
+	currentPool = new Chromosome[copyPopulation.size]; //DMA - the current population
+	matingPool = new Chromosome[copyPopulation.size];  //DMA - the selection pool
 
 	//initialise the genes-string of each chromosome in both 'currentPool'
 	//and 'matingPool' using the CreateGene(...) function
@@ -1072,7 +1072,7 @@ meanFitness(copyPopulation.meanFitness), swapRate(copyPopulation.swapRate)
 //===========================================================================
 //destructor
 
-Cpopulation::~Cpopulation()
+Population::~Population()
 {
 	delete [] currentPool;
 	delete [] matingPool;
@@ -1080,56 +1080,56 @@ Cpopulation::~Cpopulation()
 
 //===========================================================================
 
-unsigned int Cpopulation::GetGeneration()
+unsigned int Population::GetGeneration()
 {
 	return generation;
 }
 
 //===========================================================================
 
-unsigned int Cpopulation::GetSize()
+unsigned int Population::GetSize()
 {
 	return size;
 }
 
 //===========================================================================
 
-unsigned int Cpopulation::GetChromoLen()
+unsigned int Population::GetChromoLen()
 {
 	return chromolen;
 }
 
 //===========================================================================
 
-unsigned int Cpopulation::GetmutaProb()
+unsigned int Population::GetmutaProb()
 {
 	return mutaProb;
 }
 
 //===========================================================================
 
-unsigned int Cpopulation::GetcrossProb()
+unsigned int Population::GetcrossProb()
 {
 	return crossProb;
 }
 
 //===========================================================================
 
-unsigned int Cpopulation::GetFitness()
+unsigned int Population::GetFitness()
 {
 	return fitness;
 }
 
 //===========================================================================
 
-float Cpopulation::GetMeanFitness()
+float Population::GetMeanFitness()
 {
 	return meanFitness;
 }
 
 //===========================================================================
 //===========================================================================
-void Cpopulation::Select(unsigned int method, unsigned int sample)
+void Population::Select(unsigned int method, unsigned int sample)
 {
 
 	if(sample > size)
@@ -1165,8 +1165,8 @@ void Cpopulation::Select(unsigned int method, unsigned int sample)
 	unsigned int tempfit=0;
 	unsigned int currfit=0;
 	unsigned int marker=0; //marks the beginning point of the sort
-	Cchromosome* sort;
-	Cchromosome tempChromo(chromolen);
+	Chromosome* sort;
+	Chromosome tempChromo(chromolen);
 
 //-----------------------------------------------------------------------------
 // ASSIGN POPULATION FITNESS
@@ -1412,7 +1412,7 @@ delete[] tempPool; //IMPORTANT deallocate memory from pointer
 
 //============================================================================
 
-void Cpopulation::Mate(unsigned int method)
+void Population::Mate(unsigned int method)
 {
 	unsigned int l;			//used in loop
 	int result;   //used to store result of mating attempt
@@ -1478,7 +1478,7 @@ void Cpopulation::Mate(unsigned int method)
 
 //============================================================================
 
-void Cpopulation::Mutate()
+void Population::Mutate()
 {
 	unsigned int marker;
 	//-----------------------------------------------------------------------
@@ -1505,136 +1505,7 @@ void Cpopulation::Mutate()
 
 //============================================================================
 
-//void Cpopulation::AssignPopFitness() //of current population only
-//{
-	//Aswell as finding the population's total and mean fitness
-	//score. We need to sort the current populations chromosome
-	//array in order of fitness so that the fittest chromosome
-	//is in element[0]. Use a SELECTION SORT algorithm 
-
-
-//	unsigned int bestC=0; //keeps track of the best chromosome 
-//	unsigned int bestF=0; //tracks the current best Fitness
-//	unsigned int tempfit=0;
-//	unsigned int currfit=0;
-//	unsigned int marker=0; //marks the beginning point of the sort
-//	Cchromosome* sort;
-//	Cchromosome tempChromo(chromolen);
-
-//	sort = currentPool;
-	//sum up all fitness' while simultaneous finding the fittest
-	//chromosome
-//	for(unsigned int l=0; l<size; l++)
-//	{
-		//use a pointer instead
-
-		//currfit=currentPool[l].GetFitness();
-//		currfit=sort->GetFitness();
-//		tempfit=tempfit+currfit;
-
-//		if(currfit > bestF)
-//		{
-//			bestF = currfit;
-//			bestC = l;
-//		}
-//		sort++;
-//	}
-
-	//assign the total fitness
-//   fitness=tempfit;
-
-   //assign the mean fitness
-//   meanFitness = (float)fitness/size;
-
-   
-   //------------------------------------------------------------
-   // ENSURE THAT THE BEST CHROMOSOME IS ALWAYS AT ELEMENT ZERO
-
-	//tempfit = currentPool[0].GetFitness();
-	//printf("\nCHROMO FITNESS at element zero: %d", tempfit);
-	//printf("\nThe BEST CHROMO was at element: %d", bestC);
-
-   //If the fittest chromosome isn't at element
-   //zero store the value at element zero so that
-   //it can be swapped with the fittest chromosome.
-   //Therefore the fittest chromosome is ALWAYS at
-   //element one.
-//	if(bestC != 0)
-//	{
-		//store the best Chromosome in a temporary chromosome
-//		tempChromo.Copy(&currentPool[bestC]);
-
-		//copy the chromosome at element zero to the address
-		//of the best chromosome
-//		currentPool[bestC].Copy(&currentPool[0]);
-
-		//copy the temp chromosome into element zero
-//		currentPool[0].Copy(&tempChromo);
-//	}
-
-	//------------------------------------------------------------
-	//SORT ELITE CHROMOSOMES
-
-	//Only need to go futher if elitism is turned on
-	//and then only have to sort for how ever many
-    //candidates need to be 'preserved' for the next 
-	//generation.
-
-//	marker = 1;
-
-//	if(elitism != 0)
-//	{
-
-//		for(marker=1; marker < elitism; marker++)
-//		{
-//			sort = currentPool;
-//			sort += marker;
-
-//			bestC=0;
-//			bestF=0;
-
-			//go through remaining array and find the next 
-			//best chromosome
-//			for(unsigned int i = marker; i < size; i++)
-//			{
-//				currfit=sort->GetFitness();
-
-//				if(currfit > bestF)
-//				{
-//					bestF = currfit;
-//					bestC = i;
-//				}
-//				sort++;
-//			}//end of for
-
-			//Found next best candidate
-//			if(bestC != marker)
-//			{
-				//store the best Chromosome in a temporary chromosome
-//				tempChromo.Copy(&currentPool[bestC]);
-
-				//copy the chromosome at element zero to the address
-				//of the best chromosome
-//				currentPool[bestC].Copy(&currentPool[marker]);
-
-				//copy the temp chromosome into element zero
-//				currentPool[marker].Copy(&tempChromo);
-//			}
-
-
-//		}//end of for
-
-//	}//end of if
-
-	//------------------------------------------------------------
-   
-   
-
-//}//end of 'AssignPopFitness'
-
-//============================================================================
-
-void Cpopulation::AssignFitness(unsigned int element, unsigned int newfitness)
+void Population::AssignFitness(unsigned int element, unsigned int newfitness)
 {
 
 	if(element>=size)    //makes sure that a value greater than max elements
@@ -1645,11 +1516,7 @@ void Cpopulation::AssignFitness(unsigned int element, unsigned int newfitness)
 
 //============================================================================
 
-
-
-//============================================================================
-
-int Cpopulation::ExtractValue(unsigned int element, unsigned int position,
+int Population::ExtractValue(unsigned int element, unsigned int position,
 unsigned int valsize)
 {
 	int value;
@@ -1662,7 +1529,7 @@ unsigned int valsize)
 //============================================================================
 
 //insert a value into the gene-string of a chromosome
-int Cpopulation::InsertValue(unsigned int element, unsigned int position,
+int Population::InsertValue(unsigned int element, unsigned int position,
 unsigned int bitlength, unsigned int value)
 {
 	int result;
@@ -1675,7 +1542,7 @@ unsigned int bitlength, unsigned int value)
 
 //============================================================================
 
-void Cpopulation::NextGeneration()
+void Population::NextGeneration()
 {//copy 'matingPool' chromosomes into 'currentPool'
 
 	for(unsigned int l=0; l<size; l++)
@@ -1689,7 +1556,7 @@ void Cpopulation::NextGeneration()
 
 //============================================================================
 
-void Cpopulation::DisplayCurrent()
+void Population::DisplayCurrent()
 {
 	unsigned int l; //used in for-loops
 
@@ -1709,7 +1576,7 @@ void Cpopulation::DisplayCurrent()
 
 //============================================================================
 
-void Cpopulation::DisplayMating()
+void Population::DisplayMating()
 {
 	unsigned int l;
 	//--------------------------------------------------------

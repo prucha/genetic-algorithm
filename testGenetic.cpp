@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
 	// top chromosomes are copied directly into the next 
 	// generation).
 
-	Cpopulation myPop(20,10,800,5,2,2);
+	Population myPop(20,10,800,5,2,2);
 
 	int ext; //stores value extracted from gene string
 
